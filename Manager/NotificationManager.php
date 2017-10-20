@@ -40,6 +40,16 @@ class NotificationManager
     {
         return $this->repository->findOneBy(array('id' => $id));
     }
+    
+    /**
+     * Get a notification by it's id
+     * @param $id
+     * @return AbstractNotification
+     */
+    public function getNotificationByIbeekeeperId($id)
+    {
+        return $this->repository->findOneBy(array('ibeekeeperid' => $id));
+    }
 
     /**
      * Generate a notification
