@@ -145,6 +145,7 @@ class NotificationManager
     /**
      * Get all notifications for a user
      * @param UserNotificationInterface $user
+     * @param array $pagination
      * @return AbstractNotification[] list of notifications
      */
     public function getUserNotifications($user, $pagination = ['limit' => 100, 'offset' => 0])
@@ -160,6 +161,7 @@ class NotificationManager
     /**
      * Get all unseen notifications for a user
      * @param UserNotificationInterface $user
+     * @param array $pagination
      * @return AbstractNotification[]
      */
     public function getUnseenUserNotifications($user, $pagination = ['limit' => 100, 'offset' => 0])
