@@ -57,11 +57,18 @@ class NotificationExtension extends Twig_Extension
         if( !array_key_exists('seen',$options)) {
             $options['seen'] = true;
         }
+        $pagination = [];
+        if( array_key_exists('limit',$options)) {
+            $pagination['limit'] = $options['limit'];
+        }
+        if( array_key_exists('offset',$options)) {
+            $pagination['offset'] = $options['offset'];
+        }
         if ($options['display'] === 'list') {
-            return $this->renderNotifications($user, $options['seen']);
+            return $this->renderNotifications($user, $options['seen'], $pagination);
         }
         if ($options['display'] === 'dropdown') {
-            return $this->renderDropdownNotifications($user, $options['seen']);
+            return $this->renderDropdownNotifications($user, $options['seen'], $pagination);
         }
         return null;
     }
@@ -73,13 +80,13 @@ class NotificationExtension extends Twig_Extension
      * @return string
      * @internal param \Twig_Environment $twig
      */
-    public function renderNotifications($user = null, $seen = true)
+    public function renderNotifications($user = null, $seen = true, $pagination = [])
     {
         $user = $this->getUser($user);
         if ($seen) {
-            $notifications = $this->notificationManager->getUserNotifications($user);
+            $notifications = $this->notificationManager->getUserNotifications($user, $pagination);
         } else {
-            $notifications = $this->notificationManager->getUnseenUserNotifications($user);
+            $notifications = $this->notificationManager->getUnseenUserNotifications($user, $pagination);
         }
 
         return $this->twig->render('MgiletNotificationBundle::notification_list.html.twig',
@@ -95,13 +102,13 @@ class NotificationExtension extends Twig_Extension
      * @param bool $seen
      * @return mixed
      */
-    public function renderDropdownNotifications($user = null, $seen = true)
+    public function renderDropdownNotifications($user = null, $seen = true, $pagination = [])
     {
         $user = $this->getUser($user);
         if ($seen) {
-            $notifications = $this->notificationManager->getUserNotifications($user);
+            $notifications = $this->notificationManager->getUserNotifications($user, $pagination);
         } else {
-            $notifications = $this->notificationManager->getUnseenUserNotifications($user);
+            $notifications = $this->notificationManager->getUnseenUserNotifications($user, $pagination);
         }
 
         return $this->twig->render('MgiletNotificationBundle::notification_dropdown.html.twig', array(
