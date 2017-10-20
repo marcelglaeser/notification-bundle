@@ -19,11 +19,10 @@ class UrlListener {
 
         $iNotificationId = $request->query->get('notid');
         if ($iNotificationId) {
-            $oNotification = $this->svNotificationManager->getNotificationById($iNotificationId);
+            $oNotification = $this->svNotificationManager->getNotificationByIbeekeeperId($iNotificationId);
             if ($oNotification) {
                 $this->svNotificationManager->markAsSeen($oNotification);
             }
         }
     }
-
 }
