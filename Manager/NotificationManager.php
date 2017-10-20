@@ -147,9 +147,14 @@ class NotificationManager
      * @param UserNotificationInterface $user
      * @return AbstractNotification[] list of notifications
      */
-    public function getUserNotifications($user)
+    public function getUserNotifications($user, $limit = 100, $offset = 0)
     {
-        return $this->repository->findBy(array('user' => $user),array('date' => 'DESC'));
+        return $this->repository->findBy(
+            array('user' => $user),
+            array('date' => 'DESC'),
+            $limit,
+            $offset
+        );
     }
 
     /**
@@ -157,14 +162,16 @@ class NotificationManager
      * @param UserNotificationInterface $user
      * @return AbstractNotification[]
      */
-    public function getUnseenUserNotifications($user)
+    public function getUnseenUserNotifications($user, $limit = 100, $offset = 0)
     {
         return $this->repository->findBy(
             array(
                 'user' => $user,
                 'seen' => false
             ),
-            array('date' => 'DESC')
+            array('date' => 'DESC'),
+            $limit,
+            $offset
         );
     }
 
