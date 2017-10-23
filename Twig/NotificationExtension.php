@@ -52,17 +52,19 @@ class NotificationExtension extends Twig_Extension
      * @param null $user
      * @return null|string
      */
-    public function render($options = array(), $user = null)
+    public function render($options = array(), $user = null) 
     {
-        if( !array_key_exists('seen',$options)) {
+        if (!array_key_exists('seen', $options)) {
             $options['seen'] = true;
         }
         $pagination = [];
-        if( array_key_exists('limit',$options)) {
-            $pagination['limit'] = $options['limit'];
-        }
-        if( array_key_exists('offset',$options)) {
-            $pagination['offset'] = $options['offset'];
+        if (array_key_exists('pagination', $options)) {
+            if (array_key_exists('limit', $options['pagination'])) {
+                $pagination = $options['pagination'];
+            }
+            if (!array_key_exists('offset', $pagination)) {
+                $pagination['offset'] = 0;
+            }
         }
         if ($options['display'] === 'list') {
             return $this->renderNotifications($user, $options['seen'], $pagination);
